@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Envision to Innovation</title>
+  <meta name="description" content="Envision to Innovation is a student-led nonprofit building lasting technology hubs in underserved rural schools, starting in Mexico.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,600&family=Sora:wght@300;400;600;700;800&display=swap">
+  <style>
+    /* One continuous scroll on icy light ground; deep plum is the accent.
+       Sky of connecting points → scroll-lit statement → counters → pillars → field note → team → plum call to action. */
+    :root {
+      --ice: #eef3fa;
+      --ice-2: #e2e8f5;
+      --paper: #f9fbfe;
+      --periwinkle: #b9c2ee;
+      --plum: #1b2a4e;
+      --plum-deep: #111b36;
+      --ink: #141c30;
+      --muted: #4a6283;
+      --rule: #c9d2e6;
+      --on-plum: #f2f6fc;
+      --on-plum-muted: #c9cfee;
+      --focus: #2f55c4;
+
+      --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
+      --font-body: "Literata", Georgia, serif;
+      --font-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+
+      --gutter: clamp(1rem, 4vw, 3rem);
+      color-scheme: light;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    body {
+      margin: 0;
+      background: var(--ice);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; height: auto; }
+    p { margin: 0; }
+    h1, h2, h3 { margin: 0; font-family: var(--font-display); line-height: 1.08; text-wrap: balance; color: var(--plum); }
+    a { color: var(--plum); }
+
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+
+    .skip-link {
+      position: absolute; left: var(--gutter); top: -4rem; z-index: 50;
+      background: var(--plum); color: var(--on-plum);
+      font: 600 1rem var(--font-display); padding: 0.75rem 1rem; text-decoration: none;
+    }
+    .skip-link:focus { top: 4.5rem; }
+
+    .wrap { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--gutter); }
+
+    .label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Fixed bar */
+
+    .bar {
+      position: fixed; inset: 0 0 auto 0; z-index: 40;
+      padding-top: env(safe-area-inset-top, 0px);
+      background: rgba(238, 243, 250, 0.88);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; min-height: 60px; }
+    .brand {
+      display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; min-width: 0;
+      color: var(--plum); text-decoration: none;
+      font: 700 0.85rem var(--font-display); letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .brand img { height: 40px; width: auto; }
+    .brand span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .bar-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 0 1rem;
+      font: 600 0.9rem var(--font-display);
+      color: var(--on-plum); background: var(--plum); text-decoration: none; border-radius: 2px;
+    }
+    .bar-link:hover { background: var(--plum-deep); }
+    .motion-toggle {
+      display: none;
+      min-height: 44px; min-width: 44px; padding: 0 0.75rem;
+      font: 500 0.75rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--plum); background: transparent;
+      border: 1px solid var(--plum); border-radius: 2px; cursor: pointer;
+    }
+    .js .motion-toggle { display: inline-flex; align-items: center; }
+    .progress {
+      position: absolute; left: 0; bottom: -1px; height: 3px; width: 100%;
+      background: var(--plum); transform-origin: 0 50%; transform: scaleX(0);
+    }
+    @media (max-width: 30em) { .brand span { display: none; } }
+
+    /* Hero: a sky of classrooms waiting to connect */
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding-block: 6rem 3rem;
+      overflow: hidden;
+    }
+    #network { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .hero::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 45%, rgba(238, 243, 250, 0.92) 25%, transparent 75%);
+    }
+    .hero-inner { position: relative; z-index: 1; display: grid; gap: 1.5rem; justify-items: center; }
+    .hero-logo { width: min(78vw, 24rem); }
+    .hero h1 {
+      font-size: clamp(2.3rem, 0.9rem + 7vw, 6.2rem);
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--plum);
+      text-shadow: 0 0 28px rgba(185, 194, 238, 0.9);
+      max-width: 12ch;
+    }
+    .typed {
+      font-family: var(--font-mono);
+      font-size: clamp(1rem, 0.9rem + 0.6vw, 1.2rem);
+      color: var(--ink);
+      max-width: 38ch;
+      min-height: 3.4em;
+    }
+    .caret {
+      display: inline-block; width: 0.55em; height: 1.1em; margin-left: 2px;
+      vertical-align: -0.15em; background: var(--plum);
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .scroll-cue {
+      display: inline-flex; align-items: center; min-height: 44px; padding-inline: 0.5rem;
+      font: 500 0.8rem var(--font-mono); letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+    }
+    .scroll-cue:hover { color: var(--plum); }
+    @media (prefers-reduced-motion: no-preference) {
+      .scroll-cue { animation: drift 2.4s ease-in-out infinite; }
+      @keyframes drift { 50% { transform: translateY(6px); } }
+    }
+
+    /* Scroll-lit statement */
+
+    .statement { position: relative; border-top: 1px solid var(--rule); }
+    .js .statement { height: 260vh; }
+    .statement-stick {
+      position: sticky; top: 0;
+      min-height: 100svh;
+      display: grid; align-content: center; gap: 2rem;
+      padding-block: 6rem 3rem;
+    }
+    .statement p.big {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(1.7rem, 1rem + 3.2vw, 3.6rem);
+      line-height: 1.22;
+      letter-spacing: -0.015em;
+      max-width: 22ch;
+      color: var(--ink);
+    }
+    .statement .key { color: var(--plum); font-weight: 700; }
+    .statement .w { transition: color 0.25s ease, background-size 0.4s ease; }
+    .js .statement .w { color: rgba(20, 28, 48, 0.2); }
+    .js .statement .w.on { color: var(--ink); }
+    .js .statement .w.key {
+      background: linear-gradient(var(--periwinkle), var(--periwinkle)) 0 88% / 0 0.28em no-repeat;
+    }
+    .js .statement .w.key.on { color: var(--plum); background-size: 100% 0.28em; }
+
+    /* Counters */
+
+    .counts { padding-block: clamp(4rem, 10vw, 8rem); border-top: 1px solid var(--rule); }
+    .counts .wrap { display: grid; gap: 3rem; }
+    .count-grid {
+      display: grid; gap: 2.5rem 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+      margin: 0;
+    }
+    .count { display: grid; gap: 0.75rem; align-content: start; border-top: 3px solid var(--plum); padding-top: 1.25rem; }
+    .count dd { margin: 0; order: -1; }
+    .count dt { font-family: var(--font-mono); font-size: 0.9rem; color: var(--muted); max-width: 22ch; }
+    .odo {
+      display: inline-flex;
+      font: 800 clamp(5rem, 3rem + 8vw, 9rem)/1 var(--font-display);
+      color: var(--plum);
+      font-variant-numeric: tabular-nums;
+      height: 1em; overflow: hidden;
+    }
+    .odo-col { display: flex; flex-direction: column; transition: transform 1.6s cubic-bezier(0.2, 0.8, 0.1, 1); }
+    .odo-col span { height: 1em; display: block; }
+
+    /* Pillars */
+
+    .pillars { padding-block: clamp(4rem, 10vw, 8rem); background: linear-gradient(var(--ice), var(--ice-2)); }
+    .pillars .wrap { display: grid; gap: 1rem; }
+    .pillars h2 { font-size: clamp(1.8rem, 1.2rem + 2.6vw, 3rem); margin-bottom: 2rem; max-width: 18ch; }
+    .pillar {
+      display: grid; gap: 0.5rem 3rem;
+      padding-block: 2.5rem;
+      border-top: 1.5px solid var(--plum);
+    }
+    .pillar:last-child { border-bottom: 1.5px solid var(--plum); }
+    .pillar h3 {
+      font-size: clamp(2.4rem, 1.2rem + 5.5vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .pillar p { font-size: 1.15rem; max-width: 34ch; }
+    @media (min-width: 56em) {
+      .pillar { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: end; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .js .reveal { opacity: 0.15; transform: translateY(28px); transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1); }
+      .js .reveal.seen { opacity: 1; transform: none; }
+    }
+
+    /* Who we are + working note */
+
+    .why { padding-block: clamp(3rem, 8vw, 6rem); overflow-x: clip; }
+    .why .wrap { display: grid; gap: 3rem; align-items: center; }
+    @media (min-width: 56em) { .why .wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); gap: 5rem; } }
+    .why h2 { font-size: clamp(2rem, 1.2rem + 3vw, 3.4rem); letter-spacing: -0.02em; max-width: 16ch; }
+    .why .prose { display: grid; gap: 1.25rem; min-width: 0; }
+    .why .prose p { max-width: 36rem; }
+
+    .field-note {
+      position: relative;
+      background-color: var(--paper);
+      background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(1.75rem - 1px), var(--rule) calc(1.75rem - 1px), var(--rule) 1.75rem);
+      background-position: 0 3.5rem;
+      border: 1px solid var(--rule);
+      border-left: 3px double var(--periwinkle);
+      padding: 1.25rem 1.25rem 1.5rem 1.5rem;
+      line-height: 1.75rem;
+      box-shadow: 0 14px 30px -20px rgba(20, 28, 48, 0.45);
+      transform: rotate(-0.8deg);
+    }
+    .field-note h3 { font-size: 1.2rem; line-height: 1.75rem; margin-block: 0 1.75rem; }
+    .field-note ol { margin: 0; padding-left: 1.4rem; }
+    .field-note strong { font-family: var(--font-display); color: var(--plum); }
+    .stamp {
+      position: absolute; top: -0.9rem; right: 1rem;
+      font: 600 0.75rem var(--font-mono); letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--plum); background: var(--ice);
+      border: 2px solid var(--plum); padding: 0.2rem 0.6rem;
+      transform: rotate(3deg);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .js .field-note.reveal { transform: rotate(-6deg) translateY(40px); }
+      .js .field-note.reveal.seen { transform: rotate(-0.8deg); }
+      .js .stamp { transform: rotate(3deg) scale(1.6); opacity: 0; transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) 0.8s, opacity 0.2s ease 0.8s; }
+      .js .seen .stamp { transform: rotate(3deg) scale(1); opacity: 1; }
+    }
+
+    /* Team: roll call */
+
+    .team { padding-block: clamp(3rem, 8vw, 6rem); border-top: 1px solid var(--rule); }
+    .team .wrap { display: grid; gap: 2rem; }
+    .team h2 { font-size: clamp(1.8rem, 1.2rem + 2.6vw, 3rem); }
+    .roll {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; gap: 2rem 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (min-width: 56em) { .roll { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; } }
+    .roll li { display: grid; gap: 0.4rem; align-content: start; min-width: 0; }
+    .roll img {
+      display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover;
+      border-bottom: 4px solid var(--plum);
+      margin-bottom: 0.6rem;
+      background: var(--ice-2);
+    }
+    .roll h3 { font-size: clamp(1.4rem, 1rem + 1.6vw, 2rem); font-weight: 700; letter-spacing: -0.02em; }
+    .roll p { font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.45; color: var(--muted); }
+    @media (prefers-reduced-motion: no-preference) {
+      .js .roll li { opacity: 0.12; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+      .js .roll.seen li { opacity: 1; transform: none; }
+      .js .roll.seen li:nth-child(2) { transition-delay: 0.15s; }
+      .js .roll.seen li:nth-child(3) { transition-delay: 0.3s; }
+      .js .roll.seen li:nth-child(4) { transition-delay: 0.45s; }
+    }
+
+    /* Get involved: the one plum block */
+
+    .involved { background: var(--plum); color: var(--on-plum); padding-block: clamp(4rem, 10vw, 7rem); }
+    .involved .wrap { display: grid; gap: 2.5rem; }
+    @media (min-width: 56em) { .involved .wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); align-items: center; gap: 4rem; } }
+    .involved h2 { font-size: clamp(2.2rem, 1.2rem + 4vw, 4.2rem); color: var(--on-plum); letter-spacing: -0.02em; max-width: 14ch; }
+    .involved .label { color: var(--on-plum-muted); }
+    .involved .copy { display: grid; gap: 1.25rem; min-width: 0; }
+    .involved .copy p { max-width: 34rem; }
+    .involved :focus-visible { outline-color: var(--periwinkle); }
+    .contact { display: grid; gap: 1rem; min-width: 0; padding: 1.5rem; background: var(--ice); color: var(--ink); border-top: 4px solid var(--periwinkle); }
+    .contact .label { color: var(--muted); }
+    .contact :focus-visible { outline-color: var(--focus); }
+    .address { font: 600 clamp(0.95rem, 0.8rem + 1vw, 1.15rem) var(--font-mono); color: var(--plum); overflow-wrap: anywhere; user-select: all; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 52px; width: 100%; padding: 0.75rem 1.25rem;
+      font: 600 1.05rem var(--font-display); text-decoration: none; cursor: pointer;
+      background: var(--plum); color: var(--on-plum); border: 2px solid var(--plum); border-radius: 2px;
+    }
+    .button:hover { background: var(--plum-deep); border-color: var(--plum-deep); }
+    .button.quiet { background: transparent; color: var(--plum); }
+    .button.quiet:hover { background: var(--plum); color: var(--on-plum); }
+    .copy-status { font: 0.85rem var(--font-mono); color: var(--muted); min-height: 1.4em; }
+    .small { font-size: 0.85rem; color: var(--muted); }
+
+    footer { background: var(--plum-deep); padding-block: 2rem calc(2rem + env(safe-area-inset-bottom, 0px)); }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; align-items: center; font: 0.8rem var(--font-mono); letter-spacing: 0.1em; color: var(--on-plum-muted); }
+    footer img { height: 48px; width: auto; }
+    footer a { color: var(--on-plum); display: inline-flex; min-height: 44px; align-items: center; }
+    footer :focus-visible { outline-color: var(--periwinkle); }
+
+    /* Reduced motion: everything at rest */
+    @media (prefers-reduced-motion: reduce) {
+      .caret { animation: none; }
+      .odo-col { transition: none; }
+      .js .statement { height: auto; }
+      .js .statement .w { color: inherit; }
+      .js .statement .w.key { color: var(--plum); background-size: 100% 0.28em; }
+    }
+    .still .caret, .still .scroll-cue { animation: none; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="bar">
+    <div class="wrap">
+      <a class="brand" href="#top"><img src="logo-mark.png" alt="" width="367" height="743"><span>Envision to Innovation</span></a>
+      <div class="bar-actions">
+        <button class="motion-toggle" type="button" aria-pressed="false" aria-label="Pause animation">Pause</button>
+        <a class="bar-link" href="#get-involved">Get involved</a>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"></div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <canvas id="network" aria-hidden="true"></canvas>
+      <div class="hero-inner wrap">
+        <img class="hero-logo" src="logo.png" alt="Envision to Innovation logo: the name beside a line drawing of a rising phoenix" width="1126" height="747">
+        <h1 id="hero-title">Close the digital divide</h1>
+        <p class="typed" data-text="Every student deserves access to the tools that shape the future, no matter where they go to school.">Every student deserves access to the tools that shape the future, no matter where they go to school.</p>
+        <a class="scroll-cue" href="#statement">↓ Scroll to continue ↓</a>
+      </div>
+    </section>
+
+    <section class="statement" id="statement" aria-label="What we do">
+      <div class="statement-stick wrap">
+        <p class="label">What we do</p>
+        <p class="big">We build <span class="key">technology hubs</span> in underserved <span class="key">rural schools</span>, starting in <span class="key">Mexico</span>, and make sure they <span class="key">last</span>.</p>
+      </div>
+    </section>
+
+    <section class="counts" aria-labelledby="counts-title">
+      <div class="wrap">
+        <h2 id="counts-title" class="label">By the numbers</h2>
+        <dl class="count-grid">
+          <div class="count"><dt>pillars our work stands on</dt><dd><span class="odo" data-value="3">3</span></dd></div>
+          <div class="count"><dt>students who saw a gap and decided to act</dt><dd><span class="odo" data-value="4">4</span></dd></div>
+          <div class="count"><dt>school at a time</dt><dd><span class="odo" data-value="1">1</span></dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="pillars" aria-labelledby="pillars-title">
+      <div class="wrap">
+        <p class="label">How a hub lasts</p>
+        <h2 id="pillars-title">Our work stands on three pillars.</h2>
+        <div class="pillar reveal">
+          <h3>Infrastructure</h3>
+          <p>Setting up the devices and connectivity students need to learn with technology.</p>
+        </div>
+        <div class="pillar reveal">
+          <h3>Curriculum</h3>
+          <p>Running AI and digital literacy workshops that turn access into real skills.</p>
+        </div>
+        <div class="pillar reveal">
+          <h3>Community</h3>
+          <p>Partnering with local schools and families so the impact keeps growing after we leave.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="why" aria-labelledby="why-title">
+      <div class="wrap">
+        <div class="prose">
+          <p class="label">Who we are</p>
+          <h2 id="why-title">We're students who saw a gap.</h2>
+          <p>Envision to Innovation is a student-led nonprofit working to close the digital divide. We believe every student deserves access to the tools that shape the future, no matter where they go to school.</p>
+          <p>Our goal is to connect rural classrooms to the opportunities technology opens up, one school at a time.</p>
+        </div>
+        <aside class="field-note reveal" aria-labelledby="note-title">
+          <span class="stamp" aria-hidden="true">Working note</span>
+          <p class="label">Field question</p>
+          <h3 id="note-title">What does a hub need to keep working after we leave?</h3>
+          <ol>
+            <li><strong>Infrastructure.</strong> Devices and connectivity students can learn with.</li>
+            <li><strong>Curriculum.</strong> AI and digital literacy workshops that turn access into skills.</li>
+            <li><strong>Community.</strong> Local schools and families who carry the work forward.</li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="team" aria-labelledby="team-title">
+      <div class="wrap">
+        <p class="label">Leadership</p>
+        <h2 id="team-title">Our Leadership</h2>
+        <ul class="roll">
+          <li>
+            <img src="team/kissa.jpg" alt="" width="640" height="800" loading="lazy">
+            <h3>Kissa</h3>
+            <p>Founder &amp; Executive Director of Operations</p>
+          </li>
+          <li>
+            <img src="team/yen-nhi.jpg" alt="" width="640" height="800" loading="lazy">
+            <h3>Yen Nhi</h3>
+            <p>Director of Finance &amp; Strategy</p>
+          </li>
+          <li>
+            <img src="team/audrey.jpg" alt="" width="640" height="800" loading="lazy">
+            <h3>Audrey</h3>
+            <p>Director of Brand &amp; Communications</p>
+          </li>
+          <li>
+            <img src="team/kayden.jpg" alt="" width="640" height="800" loading="lazy">
+            <h3>Kayden</h3>
+            <p>Director of Curriculum &amp; Innovation</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="involved" id="get-involved" aria-labelledby="involved-title">
+      <div class="wrap">
+        <div class="copy">
+          <p class="label">Get involved</p>
+          <h2 id="involved-title">Help connect a classroom.</h2>
+          <p>Write to us. Tell us your name, how you'd like to help, and whether you're writing for yourself, a school, or an organization. We read every message.</p>
+        </div>
+        <div class="contact">
+          <p class="label">Email the team</p>
+          <p class="address">envisiontoinnovation@gmail.com</p>
+          <a class="button" href="mailto:envisiontoinnovation@gmail.com?subject=Getting%20involved">Write to us</a>
+          <button class="button quiet" type="button" data-copy="envisiontoinnovation@gmail.com" hidden>Copy email address</button>
+          <p class="copy-status" role="status"></p>
+          <p class="small">"Write to us" opens your email app. If nothing happens, copy the address above.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <img src="logo-light.png" alt="Envision to Innovation" width="1126" height="747">
+      <span>Student-led nonprofit · envisiontoinnovation@gmail.com</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add("js");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var paused = reduce.matches;
+    var listeners = [];
+    function onMotionChange(fn) { listeners.push(fn); }
+    var toggle = document.querySelector(".motion-toggle");
+    function setPaused(p) {
+      paused = p;
+      root.classList.toggle("still", p);
+      toggle.setAttribute("aria-pressed", String(p));
+      toggle.textContent = p ? "Play" : "Pause";
+      listeners.forEach(function (fn) { fn(p); });
+    }
+    toggle.addEventListener("click", function () { setPaused(!paused); });
+
+    // Typewriter (the full sentence is in the HTML and in the accessible name)
+    var typed = document.querySelector(".typed");
+    var full = typed.getAttribute("data-text");
+    typed.setAttribute("aria-label", full);
+    var caret = document.createElement("span"); caret.className = "caret"; caret.setAttribute("aria-hidden", "true");
+    function finishTyping() { typed.innerHTML = ""; typed.appendChild(document.createTextNode(full)); typed.appendChild(caret); }
+    if (!paused) {
+      var i = 0, textNode = document.createTextNode("");
+      typed.innerHTML = ""; typed.appendChild(textNode); typed.appendChild(caret);
+      (function step() {
+        if (paused) { finishTyping(); return; }
+        i++; textNode.nodeValue = full.slice(0, i);
+        if (i < full.length) setTimeout(step, full[i - 1] === "," ? 260 : 32);
+      })();
+    } else { finishTyping(); }
+
+    // Network canvas: points (classrooms) that link up as you scroll
+    var canvas = document.getElementById("network");
+    var ctx = canvas.getContext("2d");
+    var pts = [], W = 0, H = 0, dpr = 1, link = 0.25, raf = 0;
+    function css(name) { return getComputedStyle(root).getPropertyValue(name).trim(); }
+    var dotColor = css("--periwinkle"), accent = css("--plum");
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = Math.round(Math.min(110, (W * H) / 9000));
+      pts = [];
+      for (var k = 0; k < n; k++) pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.18, vy: (Math.random() - 0.5) * 0.18, r: Math.random() * 1.8 + 1, t: Math.random() * 6.28 });
+    }
+    function draw(move) {
+      ctx.clearRect(0, 0, W, H);
+      var reach = 90 + link * 120;
+      for (var a = 0; a < pts.length; a++) {
+        var p = pts[a];
+        if (move) { p.x += p.vx; p.y += p.vy; p.t += 0.02; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1; }
+        for (var b = a + 1; b < pts.length; b++) {
+          var q = pts[b], dx = p.x - q.x, dy = p.y - q.y, d = Math.sqrt(dx * dx + dy * dy);
+          if (d < reach) { ctx.strokeStyle = "rgba(27,42,78," + (0.28 * (1 - d / reach)).toFixed(3) + ")"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke(); }
+        }
+        ctx.globalAlpha = 0.6 + 0.4 * Math.sin(p.t);
+        ctx.fillStyle = a % 5 === 0 ? accent : dotColor;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+    var heroVisible = true;
+    function loop() { raf = 0; if (paused || !heroVisible || document.hidden) return; draw(true); raf = requestAnimationFrame(loop); }
+    function kick() { if (!raf && !paused) raf = requestAnimationFrame(loop); }
+    size(); draw(false); kick();
+    window.addEventListener("resize", function () { size(); draw(false); });
+    document.addEventListener("visibilitychange", kick);
+    new IntersectionObserver(function (e) { heroVisible = e[0].isIntersecting; kick(); }).observe(canvas);
+    onMotionChange(function (p) { if (!p) kick(); else draw(false); });
+
+    // Scroll-lit statement: split into words, keep key phrases marked
+    var big = document.querySelector(".statement .big");
+    var words = [];
+    (function split(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          var isKey = node.classList && node.classList.contains("key");
+          n.nodeValue.split(/(\s+)/).forEach(function (s) {
+            if (!s) return;
+            if (/^\s+$/.test(s)) { frag.appendChild(document.createTextNode(s)); return; }
+            var w = document.createElement("span"); w.className = "w" + (isKey ? " key" : ""); w.textContent = s; frag.appendChild(w); words.push(w);
+          });
+          n.parentNode.replaceChild(frag, n);
+        } else if (n.nodeType === 1) { split(n); }
+      });
+    })(big);
+    big.querySelectorAll(".key:not(.w)").forEach(function (k) { k.classList.remove("key"); });
+
+    var statement = document.querySelector(".statement");
+    var bar = document.querySelector(".progress");
+    function onScroll() {
+      var max = document.documentElement.scrollHeight - innerHeight;
+      bar.style.transform = "scaleX(" + (max > 0 ? scrollY / max : 0) + ")";
+      link = Math.min(1, 0.25 + scrollY / innerHeight);
+      if (paused) { words.forEach(function (w) { w.classList.add("on"); }); return; }
+      var r = statement.getBoundingClientRect();
+      var prog = Math.max(0, Math.min(1, (-r.top + innerHeight * 0.35) / (r.height - innerHeight * 0.6)));
+      var lit = Math.round(prog * words.length);
+      words.forEach(function (w, j) { w.classList.toggle("on", j < lit); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    onMotionChange(function () { onScroll(); });
+
+    // Odometers
+    document.querySelectorAll(".odo").forEach(function (el) {
+      var v = el.getAttribute("data-value");
+      el.setAttribute("aria-label", v); el.textContent = "";
+      var col = document.createElement("span"); col.className = "odo-col"; col.setAttribute("aria-hidden", "true");
+      for (var n = 0; n <= 20; n++) { var s = document.createElement("span"); s.textContent = n % 10; col.appendChild(s); }
+      el.appendChild(col);
+      el._target = 10 + Number(v);
+      if (paused) { col.style.transition = "none"; col.style.transform = "translateY(-" + el._target + "em)"; }
+    });
+
+    // Reveals
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        el.classList.add("seen");
+        if (el.classList.contains("odo")) el.firstChild.style.transform = "translateY(-" + el._target + "em)";
+        io.unobserve(el);
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll(".reveal, .roll, .odo").forEach(function (el) { io.observe(el); });
+    onMotionChange(function (p) {
+      if (p) document.querySelectorAll(".reveal, .roll, .odo").forEach(function (el) {
+        el.classList.add("seen");
+        if (el._target) { el.firstChild.style.transition = "none"; el.firstChild.style.transform = "translateY(-" + el._target + "em)"; }
+      });
+    });
+    if (paused) setPaused(true);
+
+    // Copy email
+    var copyBtn = document.querySelector("[data-copy]"), status = document.querySelector(".copy-status");
+    copyBtn.hidden = false;
+    copyBtn.addEventListener("click", function () {
+      var t = copyBtn.getAttribute("data-copy");
+      function done(m) { status.textContent = m; }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function () { done("Copied. Paste it into your email app."); }, function () { done("Couldn't copy automatically. Select the address above and copy it."); });
+      else done("Couldn't copy automatically. Select the address above and copy it.");
+    });
+  })();
+  </script>
+</body>
+</html>
